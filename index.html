@@ -95,24 +95,15 @@
         loadData();
 
         function loadData() {
-            var req = new XMLHttpRequest();
-            req.open('GET', 'https://api.darktornado.net/subway/jp/JY');
-            req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            req.send();
-            req.onreadystatechange = function(e) {
-                if (this.readyState == 4 && req.status === 200) {
-                    data = (req.responseText + '').trim();
-                    if (data != '') {
-                        applyData(data);
-                    }
-                } else {
-                }
-            };
+            fetch('https://api.darktornado.net/subway/jp/JY')
+                .then((response) => response.json())
+                .then((data) => {
+                    applyData(data);
+                });
         }
 
         function applyData(data) {
             var src = '';
-            data = JSON.parse(data);
             data.forEach((e) => {
                 src += '<tr>';
                 src += '<td class=train>' + (e.up ? '<img src="./images/up.png">' : '↑') + '</td>';
